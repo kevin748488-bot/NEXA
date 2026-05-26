@@ -1,16 +1,30 @@
-print("NEXA AI iniciada")
+print("🤖 NEXA AI iniciada")
+
+memoria = {}
 
 while True:
-    user = input("Usuario: ").lower()
+    user = input("Tú: ").lower()
 
-    if "hola" in user:
+    if "mi nombre es" in user:
+        nombre = user.replace("mi nombre es", "").strip()
+        memoria["nombre"] = nombre
+        print(f"NEXA: Encantado {nombre} 👋")
+
+    elif "como me llamo" in user:
+        print("NEXA:", memoria.get("nombre", "No lo sé todavía 😅"))
+
+    elif "hola" in user:
         print("NEXA: Hola 👋 estoy contigo")
-    elif "audifonos" in user:
-        print("NEXA: Configurando modo audio optimizado 🎧")
+
     elif "estres" in user:
-        print("NEXA: Activando modo calma 🧘")
+        print("NEXA: Activando modo calma 🧘 respira conmigo...")
+
+    elif "audifonos" in user:
+        print("NEXA: Ajustando perfil de audio 🎧")
+
     elif "salir" in user:
         print("NEXA: Hasta luego 👋")
         break
+
     else:
-        print("NEXA: Entendido.")
+        print("NEXA: Estoy aprendiendo aún 🤖")
