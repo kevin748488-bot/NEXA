@@ -1,30 +1,40 @@
-print("🤖 NEXA AI iniciada")
+import pyttsx3
+
+# Inicializar motor de voz
+engine = pyttsx3.init()
+
+def hablar(texto):
+    print("NEXA:", texto)
+    engine.say(texto)
+    engine.runAndWait()
+
+print("🤖 NEXA con voz iniciada")
 
 memoria = {}
 
 while True:
     user = input("Tú: ").lower()
 
-    if "mi nombre es" in user:
+    if "hola" in user:
+        hablar("Hola, estoy contigo")
+
+    elif "mi nombre es" in user:
         nombre = user.replace("mi nombre es", "").strip()
         memoria["nombre"] = nombre
-        print(f"NEXA: Encantado {nombre} 👋")
+        hablar(f"Encantado {nombre}")
 
     elif "como me llamo" in user:
-        print("NEXA:", memoria.get("nombre", "No lo sé todavía 😅"))
-
-    elif "hola" in user:
-        print("NEXA: Hola 👋 estoy contigo")
+        hablar(memoria.get("nombre", "No lo sé todavía"))
 
     elif "estres" in user:
-        print("NEXA: Activando modo calma 🧘 respira conmigo...")
+        hablar("Respira conmigo... todo va a estar bien")
 
     elif "audifonos" in user:
-        print("NEXA: Ajustando perfil de audio 🎧")
+        hablar("Configurando modo de audio optimizado")
 
     elif "salir" in user:
-        print("NEXA: Hasta luego 👋")
+        hablar("Hasta luego")
         break
 
     else:
-        print("NEXA: Estoy aprendiendo aún 🤖")
+        hablar("Estoy aprendiendo aún")
