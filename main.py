@@ -1,40 +1,50 @@
-import pyttsx3
+import asyncio
+import edge_tts
+import os
 
-# Inicializar motor de voz
-engine = pyttsx3.init()
-
-def hablar(texto):
+async def hablar(texto):
     print("NEXA:", texto)
-    engine.say(texto)
-    engine.runAndWait()
 
-print("🤖 NEXA con voz iniciada")
+    tts = edge_tts.Communicate(texto, "es-MX-DaliaNeural")
+    await tts.save("voz.mp3")
 
-memoria = {}
+    # Windows
+    os.system("start voz.mp3")
+    # Para Linux/Mac, descomentar:
+    # os.system("mpg123 voz.mp3")  # Linux
+    # os.system("afplay voz.mp3")  # macOS
 
-while True:
-    user = input("Tú: ").lower()
+async def main():
+    print("🤖 NEXA con voz iniciada")
 
-    if "hola" in user:
-        hablar("Hola, estoy contigo")
+    memoria = {}
 
-    elif "mi nombre es" in user:
-        nombre = user.replace("mi nombre es", "").strip()
-        memoria["nombre"] = nombre
-        hablar(f"Encantado {nombre}")
+    while True:
+        user = input("Tú: ").lower()
 
-    elif "como me llamo" in user:
-        hablar(memoria.get("nombre", "No lo sé todavía"))
+        if "hola" in user:
+            await hablar("Hola, estoy contigo")
 
-    elif "estres" in user:
-        hablar("Respira conmigo... todo va a estar bien")
+        elif "mi nombre es" in user:
+            nombre = user.replace("mi nombre es", "").strip()
+            memoria["nombre"] = nombre
+            await hablar(f"Encantado {nombre}")
 
-    elif "audifonos" in user:
-        hablar("Configurando modo de audio optimizado")
+        elif "como me llamo" in user:
+            await hablar(memoria.get("nombre", "No lo sé todavía"))
 
-    elif "salir" in user:
-        hablar("Hasta luego")
-        break
+        elif "estres" in user:
+            await hablar("Respira conmigo... todo va a estar bien")
 
-    else:
-        hablar("Estoy aprendiendo aún")
+        elif "audifonos" in user:
+            await hablar("Configurando modo de audio optimizado")
+
+        elif "salir" in user:
+            await hablar("Hasta luego")
+            break
+
+        else:
+            await hablar("Estoy aprendiendo aún")
+
+if __name__ == "__main__":
+    asyncio.run(main())
